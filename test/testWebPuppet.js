@@ -8,8 +8,16 @@ const test = tap.test
 const totalContacts = 480
 const contactsNameForTest = ['小怪兽', '斩月', 'Agnes', '蛮大人']
 
+const INITIAL_TEST_ROOM_NAME = 'AWarmRoom一个温馨的房间'
+const ANOTHER_TEST_ROOM_NAME = 'ANewRoomTopic'
+
+let whoami = null // will be set after login
+
 bot
 .on('login', async contactSelf => {
+
+  whoami = contactSelf
+
   await test('contactSelf.avatar', t => contactSelf.avatar())
     
   await test('contactSelf.name', t => {
@@ -41,12 +49,17 @@ bot
     t.end()
   })
 
-  if (personalContacts.length >= 3) {
+  if (personalContacts.length >= 4) {
     await test('createRoom', async t => {
       // const otherContacts = personalContacts.filter(contact => !contact.self())
       const contactsForRoomCreate = contacts.filter(contact => _.indexOf(contactsNameForTest.slice(0, 2), contact.name()) !== -1)
-      roomForTest = await bot.Room.create(contactsForRoomCreate, 'AWarmRoom一个温馨的房间')
+      roomForTest = await bot.Room.create(contactsForRoomCreate, INITIAL_TEST_ROOM_NAME)
       return roomForTest
+    })
+
+    await test('topicOfCreatedRoom', async t => {
+      const topic = await roomForTest.topic()
+      t.same(topic, INITIAL_TEST_ROOM_NAME)
     })
 
     await utils.sleep(1000)
@@ -89,6 +102,34 @@ bot
       const toBeMentioned = members.slice(0, 3)
       return roomForTest.say(`I mentioned all of you.`, ...toBeMentioned)
     })
+
+    await test('RoomDelContact', async t => {
+      const contactForDelInRoom = await bot.Contact.find({name: contactsNameForTest[2]})
+      return roomForTest.del(contactForDelInRoom)
+    })
+
+    // room.topic()
+    await test('changeRoomTopic', async t => {
+      return roomForTest.topic(ANOTHER_TEST_ROOM_NAME)
+    })
+
+    await test('roomAnnouncement', async t => {
+      return roomForTest.announce('This is an announcement in our room.')
+    })
+
+    await test('roomOwner', async t => {
+      const owner = roomForTest.owner()
+      t.same(owner.name(), whoami.name())
+    })
+
+    await test('roomAvatar', t => roomForTest.avatar())
+
+    await test('roomHasMember', async t => {
+      const hasMe = await roomForTest.has(whoami)
+      t.same(hasMe, true)
+    })
+
+    await test('roomMemberAlias', t => roomForTest.alias(whoami))
 
   } else {
     console.log(`
