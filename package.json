@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "file-box": "^0.8.27",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "wechaty": "^0.28.3",

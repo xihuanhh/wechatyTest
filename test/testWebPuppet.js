@@ -1,8 +1,12 @@
 const bot = require('../libs/webBot')
+const utils = require('./../libs/utils')
 const tap = require('tap')
+const _ = require('lodash')
+const {FileBox} = require('file-box')
 const test = tap.test
 
 const totalContacts = 480
+const contactsNameForTest = ['小怪兽', '斩月', 'Agnes', '蛮大人']
 
 bot
 .on('login', async contactSelf => {
@@ -26,6 +30,8 @@ bot
     title       : 'Welcome to Wechaty',
     url         : 'https://github.com/chatie/wechaty',
   })
+
+  const imageMessage = FileBox.fromUrl('https://res.wx.qq.com/a/wx_fed/webwx/res/static/css/5af37c4a880a95586cd41c5b251d5562@1x.png')
   
   const contacts = await bot.Contact.findAll()
   const personalContacts = contacts.filter(contact => bot.Contact.Type.Personal === contact.type())
@@ -37,18 +43,52 @@ bot
 
   if (personalContacts.length >= 3) {
     await test('createRoom', async t => {
-      const otherContacts = personalContacts.filter(contact => !contact.self())
-      roomForTest = await bot.Room.create([otherContacts[0], otherContacts[1]], 'AWarmRoom一个温馨的房间')
+      // const otherContacts = personalContacts.filter(contact => !contact.self())
+      const contactsForRoomCreate = contacts.filter(contact => _.indexOf(contactsNameForTest.slice(0, 2), contact.name()) !== -1)
+      roomForTest = await bot.Room.create(contactsForRoomCreate, 'AWarmRoom一个温馨的房间')
       return roomForTest
     })
 
-    await test('RoomSayText', async t => roomForTest.say('hello~ world!'))
+    await utils.sleep(1000)
 
-    await test('RoomSayText', async t => roomForTest.say('你好，世界！'))
+    await test('RoomSayEngText', async t => roomForTest.say('hello~ world!'))
+    
+    await utils.sleep(3000)
+    
+    await test('RoomSayChineseText', async t => roomForTest.say('你好，世界！'))
 
-    await test('RoomSayText', async t => roomForTest.say('hello, 世界😯️'))
+    await utils.sleep(3000)
+
+    await test('RoomSayEmojiWithText', async t => roomForTest.say('hello, 世界😯️'))
+
+    await utils.sleep(3000)
 
     await test('RoomSayLink', t => roomForTest.say(linkMessage))
+
+    await utils.sleep(3000)
+
+    await test('RoomSayImage', t => roomForTest.say(imageMessage))
+
+    await utils.sleep(3000)
+
+    await test('RoomMemberAll', t => roomForTest.memberAll().then(members => {
+      t.equal(members.length, 3)
+    }))
+
+    await utils.sleep(3000)
+
+    await test('RoomAddContact', async t => {
+      const contactForAddInRoom = await bot.Contact.find({name: contactsNameForTest[2]})
+      return roomForTest.add(contactForAddInRoom)
+    })
+
+    await utils.sleep(3000)
+
+    await test('RoomSayWithMetion', async t => {
+      const members = await roomForTest.memberAll()
+      const toBeMentioned = members.slice(0, 3)
+      return roomForTest.say(`I mentioned all of you.`, ...toBeMentioned)
+    })
 
   } else {
     console.log(`
