@@ -1,0 +1,317 @@
+﻿event：friendship
+
+1、B手动扫A二维码请求添加好友并且附带信息hello，我是B
+2、A查看B好友请求的描述：friendship.contact() ⇒ Contact
+3、A回复B好友请求：friendship.hello() ⇒ string 
+4、A接受B的好友请求：friendship.accept() ⇒ Promise <void>
+5、A查看好友请求状态：friendship.type() ⇒ FriendshipType
+6、A向B发消息：contact.say(textOrContactOrFileOrUrl) ⇒ Promise <void>
+7、B查看列表收到了消息：message.text() ⇒ string
+
+
+event：room-join
+1、A邀请B加入某小群：room.add(contact) ⇒ Promise <void>
+2、B自动加入群成功，查看B是否为群成员：room.member(queryArg) ⇒ Promise <Contact | null>
+3、查看邀请人是A：roomInvitation.inviter() ⇒ Promise <Contact>
+4、查看群里消息推送：room.on(event, listener) ⇒ this
+5、查看群名称：roomInvitation.topic() ⇒ Promise <string>
+
+1、A邀请B加入某大群：room.add(contact) ⇒ Promise <void>
+2、B加入群：roomInvitation.accept() ⇒ Promise <void>
+3、B自动加入群成功，查看B是否为群成员：room.member(queryArg) ⇒ Promise <Contact | null>
+4、查看邀请人是A：roomInvitation.inviter() ⇒ Promise <Contact>
+5、群收到一条消息显示A邀请B加入群：room.on(event, listener) ⇒ this
+6、查看群名称：roomInvitation.topic() ⇒ Promise <string>
+
+event：room-topic
+1、查看群名称：room.topic([newTopic]) ⇒ Promise <void | string>
+2、更改群名称：room.topic([newTopic]) ⇒ Promise <void | string>
+3、查看群名称：room.topic([newTopic]) ⇒ Promise <void | string>
+4、群里推送一条消息显示A更改群名称：room.on(event, listener) ⇒ this
+
+
+event：room-leave
+1、群管理A踢掉B：room.del(contact) ⇒ Promise <void>
+2、群收到一条消息显示有人离开群：room.on(event, listener) ⇒ this
+3、B显示被A移出群：room.on(event, listener) ⇒ this
+3、查看B是否在群内：room.member(queryArg) ⇒ Promise <Contact | null>
+4、查看所有的群成员数：room.memberAll([query]) ⇒ Promise <Contact []>
+
+1、群员B自动退出群：room.quit() ⇒ Promise <void>
+2、查看B是否在群内：room.member(queryArg) ⇒ Promise <Contact | null>
+3、查看所有的群成员数：room.memberAll([query]) ⇒ Promise <Contact []>
+
+
+
+步骤：
+1、A1添加B为好友，发送请求信息：hello
+A2添加B为好友，发送请求信息：加好友
+A3添加B为好友，发送请求信息：😯️
+A4添加B为好友，发送请求信息：你好,😯️
+A5添加B为好友，发送请求信息：hello,加好友
+A6添加B为好友，发送请求信息： hello,😯️
+A7添加B为好友，发送请求信息：？？？  
+A4添加B为好友，发送请求信息：hello 你好，😯️
+2、B在收到好友请求后分别回复：hello、加好友、😯️、你好,😯️、hello,加好友、hello,😯️、？？？  、hello 你好，😯️
+3、B通过好友A1，把A2加入黑名单，把A3投诉
+4、查看好友请求类型（预期A1：已添加；A2：加入黑名单；A3：已投诉；A5/6/7:首次收到；A4：第二次收到）
+
+
+#  Friendship
+## 接口
+  friendship.hello() ⇒ string
+
+### 用例
+####  FriendshipSayPureEngText           hello
+####  FriendshipSayPureChineseText       加好友
+####  FriendshipSayEmojiText             😯️
+####  FriendshipSayEmojiAndChineseText   你好,😯️
+####  FriendshipSayEngAndChineseText     hello,加好友
+####  FriendshipSayEngAndEmojiText       hello,😯️
+####  FriendshipSayPureSpecialText       ？？？  
+####  FriendshipSaySpaceText             hello 你好，😯️
+
+ 
+## 接口
+   friendship.contact() ⇒ Contact
+### 用例
+####  FriendshipContactPureEngText           hello
+####  FriendshipContactPureChineseText       加好友
+####  FriendshipContactEmojiText             😯️😯️😯️
+####  FriendshipContactEmojiAndChineseText   你好,😯️
+####  FriendshipContactEngAndChineseText     hello,加好友
+####  FriendshipContactEngAndEmojiText       hello,😯️
+####  FriendshipContactPureSpecialText       ！？@
+####  FriendshipContactSpaceText             hello 你好，😯️
+ 
+ 
+## 接口
+   friendship.type() ⇒ FriendshipType
+### 用例
+####通过好友申请  FriendshipAccept
+####加入黑名单  FriendshipJoinBlackList
+####投诉  FriendshipComplaint
+
+## 接口
+   friendship.type() ⇒ FriendshipType
+### 用例
+####收到状态  FriendshipTypeVerifyStatus
+####已添加状态  FriendshipTypeConfirmStatus
+####刚收到状态  FriendshipTypeReceiveStatus
+####多次收到状态  FriendshipTypeVerifyAgainStatus
+####已加入黑名单  FriendshipTypeBlackListStatus
+####已投诉  FriendshipTypeVerifyComplaintStatus
+## 接口
+   Friendship.add(contact, hello) ⇒ Promise <void>
+### 用例
+####  FriendshipAddPureEngText           hello
+####  FriendshipAddPureChineseText       加好友
+####  FriendshipAddEmojiText             😯️😯️😯️
+####  FriendshipAddEmojiAndChineseText   你好,😯️
+####  FriendshipAddEngAndChineseText     hello,加好友
+####  FriendshipAddEngAndEmojiText       hello,😯️
+####  FriendshipAddPureSpecialText       ！？@
+####  FriendshipAddSpaceText             hello 你好，😯️
+####  FriendshipAddNullText             
+
+步骤：
+前置条件：A1被B删除了；A2被B拉黑了；A3是B好友；A4发好友请求给B；A5把B删除；A6把B拉黑
+1、A1给B发消息（B收不到）
+2、A2给B发消息（显示拒收）
+3、A3给B分别发：111，你好、hello、😯️😯️😯️😯️、你好，😯️、hello，你好、 hello，😯️、！！！、和 hello， 😯️、https://www.baidu.com/、视频文件、文件、小程序、图片、语音
+4、B分别给A3、A5、A6发消息
+5、B所在的群给B分别发：111，你好、hello、😯️😯️😯️😯️、你好，😯️、hello，你好、 hello，😯️、！！！、和 hello， 😯️、https://www.baidu.com/、视频文件、文件、小程序、图片、语音
+6、B所在的群A@A1、@A1A2、@所有人、@A、@A1A2A3
+7、A在群里发消息，然后撤回
+8、B在A3的聊天记录下分别搜索：hello、加好友、😯️、你好,😯️、hello,加好友、hello,😯️、？？？  、hello 你好，😯️
+9、B在聊天列表分别搜索：hello、加好友、😯️、你好,😯️、hello,加好友、hello,😯️、？？？  、hello 你好，😯️
+
+
+# Message
+## 接口
+  message.from() ⇒ Contact | null
+### 用例
+####来源于联系人  MessageFromContact
+####来源于黑名单  MessageFromBlackList
+####来源于删除  MessageFromDelete
+####来源于不认识  MessageFromUnknown
+####来源于群消息 MessageFromRoom
+
+## 接口
+   message.to() ⇒ Contact | null
+### 用例
+####发给联系人  MessageToContact
+####发给黑名单  MessageToBlackList
+####发给删除  MessageToDelete
+####发群消息 MessageToRoom
+
+## 接口
+   message.room() ⇒ Room | null
+### 用例
+#### MessageRoomReceiveNum                   1111
+####   MessageRoomReceivePureEngText       hello
+####   MessageRoomReceivePureChineseText    你好
+####   MessageRoomReceivePureEmojiText     😯️😯️😯️😯️
+####   MessageRoomReceiveEmojiAndChineseText       你好，😯️
+####   MessageRoomReceiveEngAndChineseText      hello，你好
+####   MessageRoomReceiveEngAndEmojiText        hello，😯️
+####   MessageRoomReceivePureSpecialText        ！！！
+####   MessageRoomReceiveSpaceText              和 hello， 😯️
+####   MessageRoomReceiveVideo
+####   MessageRoomReceiveFile 
+####   MessageRoomReceiveLink       https://www.baidu.com/
+####   MessageRoomReceiveCard       
+####   MessageRoomReceiveImage
+####   MessageRoomReceiveTalk
+
+## 接口
+   message.text() ⇒ string
+### 用例
+####  MessageText       提取文字、hello等
+
+## 接口
+   message.toRecalled() ⇒ Promise <Message | null>
+### 用例
+#### MessageToRecall 
+
+## 接口
+   message.say(textOrContactOrFileOrUrlLink) ⇒ Promise <void>
+### 用例
+#### MessageSayNum        111
+####   MessageSayPureEngText       hello
+####   MessageSayPureChineseText    你好
+####   MessageSayPureEmojiText     😯️😯️😯️😯️
+####   MessageSayEmojiAndChineseText       你好，😯️
+####   MessageSayEngAndChineseText      hello，你好
+####   MessageSayEngAndEmojiText        hello，😯️
+####   MessageSayPureSpecialText        ！！！
+####   MessageSaySpaceText              和 hello， 😯️
+####   MessageSayVideo
+####   MessageSayFile 
+####   MessageSayLink       https://www.baidu.com/
+####   MessageSayCard       
+####   MessageSayImage 
+####   MessageRoomSayTalk
+
+## 接口
+    message.type() ⇒ MessageType
+### 用例
+#### MessageTypeNum       111
+####   MessageTypePureEngText       hello
+####   MessageTypePureChineseText    你好
+####   MessageTypePureEmojiText     😯️😯️😯️😯️
+####   MessageTypeEmojiAndChineseText       你好，😯️
+####   MessageTypeEngAndChineseText      hello，你好
+####   MessageTypeEngAndEmojiText        hello，😯️
+####   MessageTypePureSpecialText        ！！！
+####   MessageTypeSpaceText              和 hello， 😯️
+####   MessageTypeVideo
+####   MessageTypeFile 
+####   MessageTypeLink       https://www.baidu.com/
+####   MessageTypeCard       
+####   MessageTypeImage 
+####   MessageTypeTalk
+
+## 接口
+   message.self() ⇒ boolean
+### 用例
+#### MessageSentByMyself
+#### MessageSentByOther
+
+## 接口
+   message.mention() ⇒ Promise <Contact []>
+### 用例
+#### MessageMentionOne
+#### MessageMentionAll
+#### MessageMentionTwo
+#### MessageMentionMore
+
+## 接口
+   message.mentionSelf() ⇒ Promise <boolean>
+### 用例
+####  MessageMentionSelf
+
+   
+## 接口
+   message.date() ⇒ Date
+### 用例
+####  MassageDate 
+
+## 接口 
+   message.age() ⇒ number
+### 用例
+####  MassageAge
+
+## 接口
+   message.toFileBox() ⇒ Promise <FileBox>
+### 用例
+#### MessageToFileBox
+
+## 接口
+   message.toContact() ⇒ Promise <Contact>
+### 用例
+#### MessageToContact
+
+## 接口
+   message.toUrlLink() ⇒ Promise <UrlLink>
+### 用例
+#### MessageToUrlLink
+
+## 接口
+   Message.find() ⇒ Promise <Message | null>
+### 用例
+####  MessageFindPureEngText           hello
+####  MessageFindPureChineseText       加好友
+#### MessageFindEmojiText             😯️😯️😯️
+####  MessageFindEmojiAndChineseText   你好,😯️
+####  MessageFindEngAndChineseText     hello,加好友
+####  MessageFindEngAndEmojiText       hello,😯️
+####  MessageFindPureSpecialText       ！？@
+####  MessageFindSpaceText             hello 你好，😯️
+####  MessageFindNullText  
+
+## 接口
+   Message.findAll() ⇒ Promise <Message []>
+### 用例
+####  MessageFindAllPureEngText           hello
+####  MessageFindAllPureChineseText       加好友
+#### MessageFindAllEmojiText             😯️😯️😯️
+####  MessageFindAllEmojiAndChineseText   你好,😯️
+####  MessageFindAllEngAndChineseText     hello,加好友
+####  MessageFindAllEngAndEmojiText       hello,😯️
+####  MessageFindAllPureSpecialText       ！？@
+####  MessageFindAllSpaceText             hello 你好，😯️
+####  MessageFindAllNullText  
+
+步骤：
+前提：设置群公告是：111AAA你好哈罗，😯️，http:www.baidu.com巴拉巴拉
+1、A邀请B入群
+2、查看群公告
+
+# RoomInvitation
+## 接口
+   roomInvitation.accept() ⇒ Promise <void>
+### 用例
+####   RoomInvitationAccept
+####  RoomInvitationRefuse
+
+## 接口
+   roomInvitation.inviter() ⇒ Promise <Contact>
+### 用例
+#### RoomInvitationInviter
+
+
+## 接口
+   roomInvitation.topic() ⇒ Promise <string>
+### 用例
+####  RoomInvitationTopic
+
+## 接口
+   roomInvitation.date() ⇒ Promise <Date>
+### 用例
+#### RoomInvitationDate
+
+## 接口
+   roomInvitation.age() ⇒ Promise <number>
+### 用例
+#### RoomInvitationAge
