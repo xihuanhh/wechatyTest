@@ -1,0 +1,17 @@
+{
+  "friendship": {
+    "domain": null,
+    "_events": {},
+    "_eventsCount": 0,
+    "id": "7341043172776162602",
+    "payload": {
+      "contactId": "wxid_7pbpilnzjbhp21",
+      "hello": "我是斩月434343",
+      "id": "7341043172776162602",
+      "stranger": "v1_563fbf8c435f7a6fd79ae3f873eba4c5137ea34716292edb1f31e9bd36f2c5a1c65ac7593c7e09deaa4903428dc78777@stranger",
+      "ticket": "v2_0e512012a9e037314fae017cdba61850c7088c5ea2e8ea1fbc1633e47c3aa9f64c231af260091a59aa28f133b8e3e2443da63416571ceff90f5aca998477b77e@stranger",
+      "timestamp": 1568776878050,
+      "type": 2
+    }
+  }
+}

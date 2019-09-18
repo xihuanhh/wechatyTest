@@ -1,0 +1,106 @@
+{
+  "roomJoin": {
+    "roomJoin": {
+      "domain": null,
+      "_events": {},
+      "_eventsCount": 0,
+      "id": "23504751323@chatroom",
+      "payload": {
+        "avatar": "http://wx.qlogo.cn/mmcrhead/pHVWknAgB5n8JlFT6hGp5f7FxNbEZSics68djuibt9LPEpoicbB1RmVvjxCK1NkYEXuFuscYup0RVSsfogQYnZfJ5ibOnCyTBPRib/0",
+        "id": "23504751323@chatroom",
+        "memberIdList": [
+          "wxid_eweiw7lkmr4n22",
+          "wxid_v5uhz0fz5stq22",
+          "wxid_ffk05mmvo73s22",
+          "wxid_7pbpilnzjbhp21"
+        ],
+        "ownerId": "wxid_eweiw7lkmr4n22",
+        "topic": ""
+      }
+    },
+    "inviteeList": [
+      {
+        "domain": null,
+        "_events": {},
+        "_eventsCount": 0,
+        "id": "wxid_7pbpilnzjbhp21",
+        "payload": {
+          "alias": "",
+          "avatar": "http://wx.qlogo.cn/mmhead/ver_1/B85NZX3O9WOLGNU7tqZyjY0rdVVNLjNH6t3tLDMmSXB3Qia7zdfXv6Dv6GVwhGBsZ85sBc1a01I9p1zN2yj61UA5OCRzCE3w3gibbv5M8H2PU/132",
+          "city": "Taizhou",
+          "friend": true,
+          "gender": 1,
+          "id": "wxid_7pbpilnzjbhp21",
+          "name": "斩月",
+          "province": "Jiangsu",
+          "signature": "",
+          "type": 1,
+          "weixin": "wxid_7pbpilnzjbhp21"
+        }
+      }
+    ],
+    "inviter": {
+      "domain": null,
+      "_events": {},
+      "_eventsCount": 0,
+      "id": "wxid_eweiw7lkmr4n22",
+      "payload": {
+        "alias": "",
+        "avatar": "",
+        "city": "",
+        "friend": false,
+        "gender": 0,
+        "id": "wxid_eweiw7lkmr4n22",
+        "name": "邱瑞文",
+        "province": "",
+        "signature": "",
+        "type": 1,
+        "weixin": "wxid_eweiw7lkmr4n22"
+      }
+    }
+  },
+  "roomLeave": {
+    "leaverList": [
+      {
+        "domain": null,
+        "_events": {},
+        "_eventsCount": 0,
+        "id": "wxid_7pbpilnzjbhp21",
+        "payload": {
+          "alias": "",
+          "avatar": "http://wx.qlogo.cn/mmhead/ver_1/B85NZX3O9WOLGNU7tqZyjY0rdVVNLjNH6t3tLDMmSXB3Qia7zdfXv6Dv6GVwhGBsZ85sBc1a01I9p1zN2yj61UA5OCRzCE3w3gibbv5M8H2PU/132",
+          "city": "Taizhou",
+          "friend": true,
+          "gender": 1,
+          "id": "wxid_7pbpilnzjbhp21",
+          "name": "斩月",
+          "province": "Jiangsu",
+          "signature": "",
+          "type": 1,
+          "weixin": "wxid_7pbpilnzjbhp21"
+        }
+      }
+    ],
+    "remover": {
+      "domain": null,
+      "_events": {},
+      "_eventsCount": 0,
+      "id": "wxid_eweiw7lkmr4n22",
+      "payload": {
+        "alias": "",
+        "avatar": "",
+        "city": "",
+        "friend": false,
+        "gender": 0,
+        "id": "wxid_eweiw7lkmr4n22",
+        "name": "邱瑞文",
+        "province": "",
+        "signature": "",
+        "type": 1,
+        "weixin": "wxid_eweiw7lkmr4n22"
+      }
+    }
+  }
+}
+
+

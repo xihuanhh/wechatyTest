@@ -4,7 +4,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "wechaty": "^0.28.3",
-    "wechaty-puppet-padplus": "^0.0.84"
+    "wechaty-puppet-padplus": "0.0.101"
   },
   "devDependencies": {
     "qrcode-terminal": "^0.12.0",
